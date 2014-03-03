@@ -1,0 +1,59 @@
+
+<!--
+SVN common targets
+
+By default it uses svn from command line. Use "svnkit" and "javahl" to change it.
+
+Properties:
+  svn.user=foo
+  svn.password=var
+  svn.svnkit=true
+  svn.javahl=false
+
+-->
+<project name="common-svn">
+
+  <!-- Set the current file path -->
+  <dirname property="common-svn._basedir" file="${ant.file.common-svn}" />
+
+  <available file=".svn" type="dir" property="svn.present"/>
+
+  <!-- Set default properties values -->
+  <condition property="svn.svnkit" value="false"><not><isset property="svn.svnkit" /></not></condition>
+  <condition property="svn.javahl" value="false"><not><isset property="svn.javahl" /></not></condition>
+
+  <!-- Define the classpath -->
+  <path id="svnant.classpath">
+    <fileset dir="${common-svn._basedir}/svnant-1.3.1" includes="**/*.jar" />
+  </path>
+  <typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="svnant.classpath" />
+
+
+
+  <!-- **************************************************** -->
+  <!-- Sets property "repository.version" to head svn revision -->
+  <!-- **************************************************** -->
+  <target name="common-svn-revision" if="svn.present">
+    <svnSetting id="svn.setting" username="${svn.user}" password="${svn.password}" svnkit="${svn.svnkit}" javahl="${svn.javahl}" failonerror="true" />
+    <svn refid="svn.setting">
+      <info target="${basedir}" />
+    </svn>
+
+    <property name="repository.version" value="${svn.info.lastRev}" />
+    <echo>SVN last revision found: ${svn.info.lastRev}</echo>
+    <echo>Property "repository.version" defined</echo>
+  </target>
+
+
+
+  <!-- **************************************************** -->
+  <!-- Update the repository -->
+  <!-- **************************************************** -->
+  <target name="common-svn-update" if="svn.present">
+    <svnSetting id="svn.setting" username="${svn.user}" password="${svn.password}" svnkit="${svn.svnkit}" javahl="${svn.javahl}" failonerror="true" />
+    <svn refid="svn.setting">
+      <update revision="HEAD" dir="${basedir}" />
+    </svn>
+  </target>
+
+</project>
