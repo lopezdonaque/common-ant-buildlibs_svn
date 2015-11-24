@@ -48,6 +48,20 @@ Properties:
 
 
   <!-- **************************************************** -->
+  <!-- Retrieves svn info -->
+  <!-- **************************************************** -->
+  <target name="common-svn-info" if="svn.present">
+    <svnSetting id="svn.setting" username="${svn.user}" password="${svn.password}" svnkit="${svn.svnkit}" javahl="${svn.javahl}" failonerror="true" />
+    <svn refid="svn.setting">
+      <info target="${basedir}" />
+    </svn>
+    <echo>SVN rev: ${svn.info.rev}</echo>
+    <echo>SVN last rev: ${svn.info.lastRev}</echo>
+  </target>
+
+
+
+  <!-- **************************************************** -->
   <!-- Update the repository -->
   <!-- **************************************************** -->
   <target name="common-svn-update" if="svn.present">
