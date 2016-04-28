@@ -34,7 +34,7 @@ Properties:
   <!-- **************************************************** -->
   <!-- Sets property "svn-lastrevision" to head svn revision -->
   <!-- **************************************************** -->
-  <target name="common-svn-lastrevision" if="svn.present">
+  <target name="common-svn-lastrevision">
     <svnSetting id="svn.setting" username="${svn.user}" password="${svn.password}" svnkit="${svn.svnkit}" javahl="${svn.javahl}" failonerror="true" />
     <svn refid="svn.setting">
       <info target="${basedir}" />
@@ -50,7 +50,7 @@ Properties:
   <!-- **************************************************** -->
   <!-- Retrieves svn info -->
   <!-- **************************************************** -->
-  <target name="common-svn-info" if="svn.present">
+  <target name="common-svn-info">
     <svnSetting id="svn.setting" username="${svn.user}" password="${svn.password}" svnkit="${svn.svnkit}" javahl="${svn.javahl}" failonerror="true" />
     <svn refid="svn.setting">
       <info target="${basedir}" />
@@ -64,7 +64,7 @@ Properties:
   <!-- **************************************************** -->
   <!-- Update the repository -->
   <!-- **************************************************** -->
-  <target name="common-svn-update" if="svn.present">
+  <target name="common-svn-update">
     <svnSetting id="svn.setting" username="${svn.user}" password="${svn.password}" svnkit="${svn.svnkit}" javahl="${svn.javahl}" failonerror="true" />
     <svn refid="svn.setting">
       <update revision="HEAD" dir="${basedir}" />
